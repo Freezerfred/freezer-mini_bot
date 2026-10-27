@@ -3,15 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>FREEZER-MD</title>
+<title>FREEZER-MD | Official</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600;800;900&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',system-ui}
-body{background:#020b16;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center}
-.header{width:100%;max-width:420px;display:flex;align-items:center;gap:12px;padding:18px 18px 8px}
-.icon{width:58px;height:58px;background:linear-gradient(180deg,#0a2a4a,#02121f);border:2px solid #2abfff;border-radius:18px;display:grid;place-items:center;font-size:32px;box-shadow:0 0 20px rgba(42,191,255,.6),inset 0 1px 0 rgba(255,255,255,.2)}
-.h1{font-size:28px;font-weight:900;font-style:italic;color:#7de8ff;letter-spacing:.5px;text-shadow:0 0 15px rgba(125,232,255,.6)}
-.sub{width:100%;max-width:420px;text-align:center;color:#8ab0c8;font-size:14px;line-height:1.4;padding:0 18px 18px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',system-ui;scroll-behavior:smooth}
+body{background:#020b16;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 50% -10%,#0e3a66 0%,#020b16 55%);z-index:-1}
+
+/* HEADER */
+.header{width:100%;max-width:420px;display:flex;align-items:center;gap:12px;padding:18px 18px 8px;position:sticky;top:0;background:rgba(2,11,22,.8);backdrop-filter:blur(15px);z-index:10;border-bottom:1px solid rgba(42,191,255,.15)}
+.icon{width:52px;height:52px;background:linear-gradient(180deg,#0a2a4a,#02121f);border:2px solid #2abfff;border-radius:16px;display:grid;place-items:center;font-size:30px;box-shadow:0 0 20px rgba(42,191,255,.6)}
+.h1{font-size:26px;font-weight:900;font-style:italic;color:#7de8ff;text-shadow:0 0 15px rgba(125,232,255,.6)}
+.menu{margin-left:auto;display:flex;gap:8px}
+.menu a{color:#8ab0c8;text-decoration:none;font-size:12px;padding:6px 10px;border:1px solid rgba(42,191,255,.2);border-radius:20px;transition:.3s}
+.menu a:hover{color:#7de8ff;border-color:#7de8ff}
+
+.sub{width:100%;max-width:420px;text-align:center;color:#8ab0c8;font-size:14px;line-height:1.4;padding:14px 18px 18px}
 .sub b{color:#5ac8ff}
 .wrap{width:92%;max-width:400px}
 .label{font-size:13.5px;font-weight:700;color:#d0e8ff;margin-bottom:8px;display:flex;gap:8px}
@@ -34,42 +41,9 @@ body{background:#020b16;color:#fff;min-height:100vh;display:flex;flex-direction:
 .foot .l{flex:1;height:1px;background:linear-gradient(90deg,transparent,#0a4a6a,transparent)}
 #box{display:none;margin-top:16px;background:rgba(0,255,136,.07);border:1.5px solid #00ff88;border-radius:14px;padding:14px;text-align:center}
 #box b{font-size:26px;letter-spacing:3px;color:#00ff88}
-</style>
-</head>
-<body>
-<div class="header"><div class="icon">🥶</div><div class="h1">FREEZER-MD</div></div>
-<div class="sub">Connect your WhatsApp in <b>under a minute.</b><br>No QR scan — pair with your number.</div>
-<div class="wrap">
-<div class="label">💬 WhatsApp number (with country code)</div>
-<div class="inp"><span>📱</span><input id="n" placeholder="2547XXXXXXX" maxlength="15"></div>
-<div class="hint"><i>i</i> Digits only — no +, spaces or leading zeros.</div>
-<button class="btn" id="b">⚡ GET PAIRING CODE →</button>
-<div id="box"><div style="font-size:11px;color:#7de8ff">YOUR CODE</div><b id="c"></b><div style="font-size:11px;color:#8ab0c8;margin-top:6px">WhatsApp > Linked Devices > Link with phone number</div></div>
-<div class="card">
-<h3>⚙️ By linking, you can enable:</h3>
-<div class="row"><div class="ic">↗️</div><div><b>Auto-follow channel</b><p>— .autofollow off</p></div></div>
-<div class="row"><div class="ic">👁️</div><div><b>Auto-view status</b><p>— .autostatusview off</p></div></div>
-<div class="row"><div class="ic">😊</div><div><b>Auto-react to statuses</b><p>— .autostatusreact off</p></div></div>
-<div class="row"><div class="ic">👤</div><div><b>Auto-update bio</b><p>— .autobio off</p></div></div>
-<div class="row"><div class="ic">⏻</div><div><b>Always online</b></div></div>
-<div class="row"><div class="ic">💬</div><div><b>Show typing indicator</b><p>— .autotyping off</p></div></div>
-<div class="row"><div class="ic">#️⃣</div><div><b>Commands without prefix</b><p>— .nonprefix off</p></div></div>
-</div>
-</div>
-<div class="foot"><div class="l"></div><div>FREEZER-MD • 4 BOTS ONLINE</div><div class="l"></div></div>
 
-<script>
-document.getElementById('b').onclick=async()=>{
-  const num=document.getElementById('n').value.trim();
-  if(!num||!/^\d+$/.test(num)||num.length<10){alert('Enter number like 2547XXXXXXX');return}
-  const btn=document.getElementById('b');btn.textContent='❄️ FREEZING...';btn.disabled=true;
-  try{
-    const res=await fetch(`/code?number=${num}`);const d=await res.json();
-    if(d.code){document.getElementById('c').textContent=d.code;document.getElementById('box').style.display='block';btn.textContent='✅ CODE READY';btn.style.background='linear-gradient(180deg,#c8ffdf,#00ff88)'}
-    else{alert(d.error||'Failed');btn.textContent='⚡ GET PAIRING CODE →'}
-  }catch{alert('Server error');btn.textContent='⚡ GET PAIRING CODE →'}
-  btn.disabled=false;setTimeout(()=>{btn.textContent='⚡ GET PAIRING CODE →';btn.style.background=''},5000);
-};
-</script>
-</body>
-</html>
+/* NEW SECTIONS */
+.section{width:92%;max-width:400px;margin-top:28px;background:rgba(6,22,44,.6);border:1px solid rgba(30,100,160,.35);border-radius:20px;padding:18px}
+.section h2{font-size:18px;color:#7de8ff;margin-bottom:12px;display:flex;gap:8px;align-items:center}
+.section p{font-size:13px;color:#8ab0c8;line-height:1.6}
+.dev-card{display:flex;gap:14px;align-items:center;background
