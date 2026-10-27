@@ -1,1 +1,29 @@
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#020a14;color:white;min-height:100vh}
+#main{opacity:0;pointer-events:none;transition:.8s;padding:20px 16px 60px;display:flex;flex-direction:column;align-items:center}
+#main.show{opacity:1;pointer-events:all}
+.server-badge{background:rgba(0,40,80,.6);border:1px solid #00d4ff;border-radius:30px;padding:8px 20px;display:flex;gap:10px;align-items:center;font-size:14px;color:#7dd8ff;box-shadow:0 0 20px rgba(0,212,255,.3);backdrop-filter:blur(10px);margin-bottom:16px}
+.dot-online{width:12px;height:12px;background:#00ff88;border-radius:50%;box-shadow:0 0 10px #00ff88;animation:pulse 2s infinite}
+.dot-online.small{width:8px;height:8px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.freezer-card{width:100%;max-width:420px;background:linear-gradient(180deg,rgba(10,30,60,.95),rgba(2,10,25,.98));border:2px solid #00a0dd;border-radius:24px;padding:24px 18px;box-shadow:0 0 60px rgba(0,160,255,.35),inset 0 1px 0 rgba(255,255,255,.15);position:relative}
+.logo-section{display:flex;gap:12px;justify-content:center;align-items:center;margin:10px 0}
+.ice-avatar{width:60px;height:60px;background:radial-gradient(circle,#00d4ff,#003366);border:2px solid #7de8ff;border-radius:18px;display:grid;place-items:center;font-size:32px;box-shadow:0 0 25px rgba(0,212,255,.6)}
+.freezer-title{font-size:34px;font-weight:900;font-style:italic;background:linear-gradient(180deg,#fff,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{text-align:center;color:#a0c8e0;font-size:14px;line-height:1.4;margin:10px 0 20px}
+.subtitle span{color:#00d4ff;font-weight:700}
+.input-group label{font-size:14px;font-weight:600;color:#c0e4ff;margin-bottom:8px;display:block}
+.input-wrap{background:rgba(0,10,30,.8);border:2px solid #00a0dd;border-radius:14px;display:flex;align-items:center;padding:0 14px}
+.input-wrap span{font-size:20px;opacity:.6;margin-right:10px}
+.input-wrap input{flex:1;background:transparent;border:none;outline:none;color:white;font-size:18px;padding:14px 0}
+.input-group small{display:flex;gap:6px;margin-top:8px;color:#6a8aaa;font-size:11px}
+.input-group small i{width:16px;height:16px;background:#2a4a6a;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;color:white}
+.ice-button{width:100%;margin:20px 0;padding:16px;border-radius:18px;border:2px solid #7de8ff;background:linear-gradient(180deg,#a0eaff 0%,#00b0ff 50%,#0080dd 100%);color:#001a33;font-weight:900;font-size:16px;cursor:pointer;box-shadow:0 0 30px rgba(0,212,255,.6),inset 0 2px 0 rgba(255,255,255,.8);position:relative;overflow:hidden}
+.features-box{background:rgba(0,15,35,.6);border:1px solid rgba(0,160,221,.3);border-radius:18px;padding:16px;margin-top:10px}
+.features-box h3{font-size:14px;color:#7dd8ff;margin-bottom:12px}
+.feat{display:flex;gap:12px;margin:12px 0}
+.ic{min-width:36px;height:36px;background:rgba(0,100,180,.2);border:1px solid #00a0dd;border-radius:10px;display:grid;place-items:center;color:#00d4ff;font-weight:700;font-size:14px}
+.feat b{display:block;font-size:13px;color:#c0e8ff}
+.feat p{font-size:11px;color:#5a8ab0}
+.card-footer{display:flex;align-items:center;gap:10px;justify-content:center;margin-top:20px;color:#00d4ff;font-size:11px;font-weight:700;letter-spacing:1px}
+.card-footer span{flex:1;height:1px;background:linear-gradient(90deg,transparent,#00a0dd,transparent)}
