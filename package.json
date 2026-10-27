@@ -1,13 +1,15 @@
 {
   "name": "freezer-md",
-  "version": "2.0.0-frozen",
-  "description": "Freezer-MD Premium Pair Site",
+  "version": "2.0.0",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.8",
     "express": "^4.18.2",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "pino": "^9.0.0",
+    "qrcode-terminal": "^0.12.0"
   }
 }
