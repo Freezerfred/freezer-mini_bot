@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FREEZER-MD | Pair WhatsApp</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',system-ui}
+body{background:#020b16;color:#fff;min-height:100vh;overflow-x:hidden}
+
+/* ===== FROZEN LOADER ===== */
+#loader{position:fixed;inset:0;background:radial-gradient(circle at center,#0f2a3a,#050a12);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .6s}
+.loader-card{background:linear-gradient(180deg,rgba(20,50,80,.9),rgba(5,15,30,.9));border:1px solid rgba(0,212,255,.3);backdrop-filter:blur(20px);border-radius:28px;padding:24px;width:90%;max-width:380px;box-shadow:0 0 80px rgba(0,212,255,.25)}
+.loader-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.logo-ice{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);padding:6px 14px;border-radius:20px;font-weight:800;font-size:13px}
+.badge{background:linear-gradient(90deg,#00d4ff,#e0f7ff);color:#001a2a;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:900}
+.circle-wrap{width:180px;height:180px;margin:0 auto 20px}
+.circle{width:100%;height:100%;border-radius:50%;background:conic-gradient(#00d4ff 0deg,#e0f7ff var(--deg),#0f2435 var(--deg));display:grid;place-items:center;padding:7px;box-shadow:0 0 30px rgba(0,212,255,.4)}
+.circle-inner{width:100%;height:100%;background:radial-gradient(circle,#1a3a52,#081422);border-radius:50%;display:grid;place-items:center}
+#percent{font-size:38px;font-weight:900;text-align:center;background:linear-gradient(180deg,#fff,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+#percent span{font-size:12px;color:#88d8ff;-webkit-text-fill-color:#88d8ff;letter-spacing:2px}
+.progress{height:5px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden;margin:16px 0}
+#bar{height:100%;width:0%;background:linear-gradient(90deg,#00d4ff,#fff);box-shadow:0 0 10px #00d4ff;transition:width .2s}
+#status{text-align:center;font-size:13px;color:#88c0dd;margin-bottom:14px}
+.step{padding:11px 14px;margin:7px 0;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;opacity:.5;transition:.4s;font-size:13px}
+.step.active{opacity:1;border-color:rgba(0,212,255,.5);background:linear-gradient(90deg,rgba(0,212,255,.15),rgba(255,255,255,.03))}
+.dot{width:22px;height:22px;border-radius:50%;border:2px solid #445566;display:grid;place-items:center;font-size:12px}
+.step.ready .dot{background:linear-gradient(180deg,#00d4ff,#fff);border-color:#00d4ff;color:#001a2a}
+
+/* ===== MAIN PAGE ===== */
+#main{opacity:0;pointer-events:none;transition:.8s;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:18px 14px 50px;position:relative}
+#main::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 50% 0%,#0a3a66 0%,transparent 60%),radial-gradient(circle at 90% 90%,#001a33 0%,transparent 50%);z-index:-1}
+#main.show{opacity:1;pointer-events:all}
+.server-badge{background:rgba(0,40,80,.7);border:1.5px solid #00d4ff;border-radius:40px;padding:9px 22px;color:#7de8ff;font-size:13px;display:flex;gap:10px;align-items:center;box-shadow:0 0 25px rgba(0,212,255,.4);backdrop-filter:blur(10px);margin-bottom:18px}
+.dot-online{width:11px;height:11px;background:#00ff88;border-radius:50%;box-shadow:0 0 12px #00ff88;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+.card{width:100%;max-width:420px;background:linear-gradient(180deg,rgba(10,32,62,.96),rgba(2,12,28,.98));border:2px solid #00a0dd;border-radius:26px;padding:26px 20px;box-shadow:0 0 70px rgba(0,160,255,.4),inset 0 1px 0 rgba(255,255,255,.2);position:relative}
+.card::before,.card::after{content:'❄️';position:absolute;top:-10px;font-size:18px;filter:drop-shadow(0 3px 6px #00d4ff)}
+.card::before{left:18px} .card::after{right:18px}
+.logo{display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:10px}
+.avatar{width:58px;height:58px;background:radial-gradient(circle,#00d4ff,#003366);border:2px solid #7de8ff;border-radius:18px;display:grid;place-items:center;font-size:30px;box-shadow:0 0 25px rgba(0,212,255,.6)}
+.title{font-size:32px;font-weight:900;font-style:italic;background:linear-gradient(180deg,#fff,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{text-align:center;color:#a0c8e0;font-size:13.5px;line-height:1.5;margin:10px 0 20px}
+.sub b{color:#00d4ff}
+label{font-size:13px;font-weight:700;color:#c0e4ff;margin-bottom:8px;display:flex;gap:6px}
+.input-wrap{background:rgba(0,10,30,.85);border:2px solid #00a0dd;border-radius:14px;display:flex;align-items:center;padding:0 14px;box-shadow:inset 0 0 20px rgba(0,0,0,.6);transition:.3s}
+.input-wrap:focus-within{border-color:#00d4ff;box-shadow:0 0 20px rgba(0,212,255,.4),inset 0 0 20px rgba(0,0,0,.6)}
+.input-wrap span{opacity:.7;margin-right:10px}
+.input-wrap input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:17px;padding:14px 0}
+small{display:flex;gap:6px;margin-top:8px;color:#6a8aaa;font-size:11px}
+small i{width:16px;height:16px;background:#2a4a6a;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;color:#fff}
+.btn{width:100%;margin:18px 0;padding:16px;border-radius:18px;border:2px solid #a0e8ff;background:linear-gradient(180deg,#c8f0ff 0%,#5ad0ff 20%,#00a0dd 60%,#0070aa 100%);color:#001a33;font-weight:900;font-size:15px;letter-spacing:.8px;box-shadow:0 0 35px rgba(0,212,255,.7),inset 0 2px 0 rgba(255,255,255,.9);position:relative;overflow:hidden;cursor:pointer;transition:.2s}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-100%);animation:shine 2.5s infinite}
+@keyframes shine{100%{transform:translateX(100%)}}
+.btn:active{transform:scale(.98)}
+.box{background:rgba(0,15,35,.6);border:1px solid rgba(0,160,221,.3);border-radius:18px;padding:16px}
+.box h3{font-size:13px;color:#7dd8ff;margin-bottom:12px}
+.feat{display:flex;gap:12px;margin:11px 0}
+.ic{min-width:36px;height:36px;background:rgba(0,100,180,.2);border:1px solid #00a0dd;border-radius:10px;display:grid;place-items:center;color:#00d4ff;font-size:14px;font-weight:700}
+.feat b{font-size:13px;color:#c0e8ff;display:block}
+.feat p{font-size:11px;color:#5a8ab0}
+.footer{display:flex;align-items:center;gap:10px;justify-content:center;margin-top:18px;color:#00d4ff;font-size:11px;font-weight:700;letter-spacing:1px}
+.footer span{flex:1;height:1px;background:linear-gradient(90deg,transparent,#00a0dd,transparent)}
+#codeBox{display:none;background:rgba(0,255,136,.1);border:1.5px solid #00ff88;border-radius:14px;padding:16px;text-align:center;margin-top:16px}
+#codeBox b{font-size:28px;letter-spacing:3px;color:#00ff88;text-shadow:0 0 15px #00ff88}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-card">
+    <div class="loader-top"><div class="logo-ice">🥶 FREEZER-MD</div><div class="badge">● FREEZING</div></div>
+    <div class="circle-wrap"><div class="circle" id="circle" style="--deg:0deg"><div class="circle-inner"><div id="percent">0%<br><span>FROZEN</span></div></div></div></div>
+    <div class="progress"><div id="bar"></div></div>
+    <div id="status">❄️ Freezing core modules...</div>
+    <div class="step" id="s1"><span>❄️ Core freezer</span><span class="dot">○</span></div>
+    <div class="step" id="s2"><span>🔗 Pair code service</span><span class="dot">○</span></div>
+    <div class="step" id="s3"><span>▦ QR ice gateway</span><span class="dot">○</span></div>
+    <div class="step" id="s4"><span>🛡️ Session frost</span><span class="dot">○</span></div>
+    <div class="step" id="s5"><span>📊 Dashboard freeze</span><span class="dot">○</span></div>
+  </div>
+</div>
+
+<div id="main">
+  <div class="server-badge"><span class="dot-online"></span> Server: <b>Online</b></div>
+  <div class="card">
+    <div class="logo"><div class="avatar">🥶</div><div class="title">FREEZER-MD</div></div>
+    <div class="sub">Connect your WhatsApp in <b>under a minute.</b><br>No QR scan — pair with your number.</div>
+    <label>💬 WhatsApp number (with country code)</label>
+    <div class="input-wrap"><span>📱</span><input id="num" placeholder="2547XXXXXXX" maxlength="15"></div>
+    <small><i>i</i> Digits only — no +, spaces or leading zeros.</small>
+    <button class="btn" id="pairBtn">⚡ GET PAIRING CODE →</button>
+    <div id="codeBox"><div style="font-size:12px;color:#7de8ff;margin-bottom:6px">YOUR PAIRING CODE</div><b id="codeText"></b><div style="font-size:11px;color:#a0c8e0;margin-top:8px">Go to WhatsApp > Linked Devices > Link with phone number</div></div>
+    <div class="box">
+      <h3>⚙️ By linking, you can enable:</h3>
+      <div class="feat"><div class="ic">↗</div><div><b>Auto-follow channel</b><p>– .autofollow off</p></div></div>
+      <div class="feat"><div class="ic">👁</div><div><b>Auto-view status</b><p>– .autostatusview off</p></div></div>
+      <div class="feat"><div class="ic">😊</div><div><b>Auto-react to statuses</b><p>– .autostatusreact off</p></div></div>
+      <div class="feat"><div class="ic">👤</div><div><b>Auto-update bio</b><p>– .autobio off</p></div></div>
+      <div class="feat"><div class="ic">⏻</div><div><b>Always online</b></div></div>
+      <div class="feat"><div class="ic">💬</div><div><b>Show typing indicator</b><p>– .autotyping off</p></div></div>
+      <div class="feat"><div class="ic">#</div><div><b>Commands without prefix</b><p>– .nonprefix off</p></div></div>
+    </div>
+    <div class="footer"><span></span><div style="display:flex;gap:6px;align-items:center"><span class="dot-online" style="width:8px;height:8px"></span> FREEZER-MD • 4 BOTS ONLINE</div><span></span></div>
+  </div>
+</div>
+
+<script>
+// LOADER
+let p=0;const circle=document.getElementById('circle'),bar=document.getElementById('bar'),percent=document.getElementById('percent'),status=document.getElementById('status');
+const steps=[document.getElementById('s1'),document.getElementById('s2'),document.getElementById('s3'),document.getElementById('s4'),document.getElementById('s5')];
+const msgs=["❄️ Freezing core modules...","🧊 Crystallizing UI layers...","🔗 Linking pair code service...","🌀 Establishing frost tunnel...","🛡️ Securing ice vault...","✨ Polishing frozen interface...","🥶 All systems frozen...","❄️ FREEZER-MD ICE READY!"];
+function upd(){if(p>=100){steps.forEach(s=>{s.classList.add('ready','active');s.querySelector('.dot').innerHTML='❄'});setTimeout(()=>{document.getElementById('loader').style.opacity='0';setTimeout(()=>{document.getElementById('loader').style.display='none';document.getElementById('main').classList.add('show')},600)},700);return}
+p+=Math.random()*3.2+0.8;if(p>100)p=100;circle.style.setProperty('--deg',p*3.6+'deg');bar.style.width=p+'%';percent.innerHTML=Math.floor(p)+'%<br><span>FROZEN</span>';status.textContent=msgs[Math.floor(p/13)]||msgs[0];if(p>18)act(0);if(p>38)act(1);if(p>58)act(2);if(p>78)act(3);if(p>94)act(4);setTimeout(upd,p>85?110:32)}function act(i){steps[i].classList.add('active','ready');steps[i].querySelector('.dot').innerHTML='❄'}upd();
+
+// PAIR LOGIC
+document.getElementById('pairBtn').onclick=async()=>{
+  const input=document.getElementById('num');
+  const number=input.value.trim();
+  if(!number||number.length<10||!/^\d+$/.test(number)){alert('🥶 Enter valid number like 2547XXXXXXX');return}
+  const btn=document.getElementById('pairBtn');
+  btn.textContent='❄️ FREEZING...';btn.disabled=true;
+  try{
+    const res=await fetch(`/code?number=${number}`);
+    const data=await res.json();
+    if(data.code){
+      document.getElementById('codeText').textContent=data.code;
+      document.getElementById('codeBox').style.display='block';
+      btn.textContent='✅ CODE READY';
+      btn.style.background='linear-gradient(180deg,#c8ffdf,#00ff88)';
+    }else{
+      alert(data.error||'Failed to get code');btn.textContent='⚡ GET PAIRING CODE →';
+    }
+  }catch(e){alert('Server error');btn.textContent='⚡ GET PAIRING CODE →'}
+  btn.disabled=false;
+  setTimeout(()=>{if(btn.textContent.includes('READY')){btn.textContent='⚡ GET PAIRING CODE →';btn.style.background='';}},5000);
+};
+</script>
+</body>
+</html>
